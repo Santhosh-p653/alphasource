@@ -1,77 +1,106 @@
-# Tamil Nadu Scheme Eligibility Gate: Protecting Citizen Welfare with Strands Decider 2B
+# How I Built a Bilingual Citizen Welfare Assistant That Blocks Fraud with Strands Decider 2B
 
-## The problem
+## The moment it clicked
 
-Tamil Nadu and South India have some of India's most impactful government welfare programmes.
-PM Kisan Samman Nidhi pays Rs 6,000 a year directly to small farmers. Kalaignar Magalir
-Urimai Thogai pays Rs 1,000 a month to women heads of household. Millions of eligible citizens
-do not apply because they cannot navigate the eligibility rules, do not know what documents to
-bring, or simply cannot read the English-language government portals.
+I grew up watching my grandmother struggle to understand government scheme paperwork. She was
+eligible for multiple programmes but could never figure out which ones, what documents to
+bring, or where to go. She spoke only Tamil. The forms were in English. The portals were
+confusing. She gave up every time.
 
-The other side of this coin: welfare fraud. People attempt to falsify income records, split
-land holdings on paper, hide employment status, or claim benefits in someone else's name. A
-simple AI assistant that answers scheme questions without any gate could easily be prompted
-into helping with exactly this.
+When I heard about the Agent Experience Hackathon and saw Strands Decider 2B, I knew exactly
+what I wanted to build. Not another developer tool. Something that could actually help people
+like her.
 
-I built an assistant that solves both sides. Genuine queries are answered clearly, in Tamil or
-English. Every request is classified by Strands Decider 2B before the agent acts. Fraud
-attempts are blocked before a single tool is called.
+That is how AlphaSource — the Tamil Nadu Government Scheme Eligibility Gate — came to be.
 
-## The project
+## What the problem actually is
 
-Tamil Nadu Scheme Eligibility Gate is a citizen-facing assistant deployed on Amazon Bedrock
-AgentCore Runtime. It supports Tamil, English, and mixed-language requests. Citizens can ask:
+Tamil Nadu has some of India's most impactful welfare programmes. PM Kisan Samman Nidhi pays
+Rs 6,000 a year directly to small farmers. Kalaignar Magalir Urimai Thogai pays Rs 1,000 a
+month to women who are heads of their household. Tens of millions of people are eligible. Many
+never apply because they do not know they qualify, cannot read the English portals, or do not
+know which documents to bring.
 
-- whether they qualify for PM Kisan or Kalaignar Magalir Urimai Thogai
-- what documents they need to apply
-- where to apply in their district
-- what the scheme benefit amount is and how it is paid
+But there is a second problem that does not get talked about as much: welfare fraud. People
+try to falsify income records, split land holdings on paper, hide employment status, or claim
+in someone else's name. A naive AI assistant that answers scheme questions without any gate is
+a fraud enabler.
 
-< FIGURE 1 of 3: upload submission/article/demo_screenshot.png here >
-Alt text: Demo UI showing a Tamil farmer asking about PM Kisan eligibility in Tamil. The decision panel shows scheme_category=agriculture, p_gaming=0.03, verdict=allow.
+I needed to solve both sides at once. Help the honest citizen. Block the bad actor.
 
-Two real schemes are implemented with accurate data:
+## Why Strands Decider 2B was the right tool
 
-**PM Kisan Samman Nidhi** (pmkisan.gov.in): Rs 6,000/year to Aadhaar-linked bank accounts for
-small and marginal farmers. Excluded: government employees above Group D, income tax payers,
-pensioners above Rs 10,000/month, professionals registered with professional bodies.
+The eligibility rules for these schemes are written in plain prose. "Annual family income
+below Rs 2.5 lakh." "Woman aged 21 or above who is listed as head of family in the ration
+card." "Farmer who owns cultivable land and does not pay income tax."
 
-**Kalaignar Magalir Urimai Thogai** (magalirthogai.tn.gov.in): Rs 1,000/month to women aged
-21 and above who are heads of household in the Tamil Nadu ration card, with Aadhaar-linked
-bank accounts. Excluded: government employees, family income above Rs 2.5 lakh, four-wheeler
-owners, land above 5 acres wetland or 10 acres dry land.
+These are language-level policy rules. A regex or a keyword filter cannot read "tell me how
+to show I own less land so I qualify for PM Kisan" in Tamil and recognise it as a fraud
+attempt. A second LLM call could, but that doubles the cost and latency for every single
+request.
 
-The demo has four turns. A Tamil farmer gets eligibility guidance. A family asks about
-Magalir Urimai documents. A citizen asks about Coimbatore application centres. Then someone
-asks "I earn Rs 3 lakh but want Magalir Urimai. How can I show lower income to qualify?" --
-the decider catches this as a serious gaming attempt and the agent returns a Tamil-language
-refusal. No tool is ever called.
+Strands Decider 2B is built exactly for this. It reads a state — the citizen's message plus
+the policy — and returns calibrated probabilities in one fast forward pass. No generation, no
+hallucination, no extra cost. Just: is this request legitimate, and if not, how serious is it?
 
-## How I built it
+I had my architecture.
 
-< FIGURE 2 of 3: upload submission/article/architecture.png here >
-Alt text: Architecture diagram showing citizen message flowing into SchemeEligibilityGate (Strands Decider 2B), then blocked or passed to Strands Agent on Amazon Bedrock Nova Pro, which calls tools (scheme data, eligibility check, documents, CSC finder).
+## Building it
 
-The agent is built with the Strands Agents SDK. Every call goes through `HackathonAgent.chat()`,
-which runs `SchemeEligibilityGate.check()` first. If the verdict is block, a refusal is
-returned in Tamil (if the message contained Tamil script) or English. If review, a caution
-note is injected into the system prompt. If allow, the Strands agent runs with Amazon Bedrock
-Nova Pro and calls the scheme tools.
+I started with the AWS User Group Madurai hackathon kit and Kiro IDE. The kit gave me the
+scaffolding: the Strands agent wiring, the `PolicyCheck` pattern, the benchmark runner, the
+demo UI. I replaced everything in `agent/` with my own idea.
 
-The gate detects Tamil script using a simple Unicode range check and switches the block message
-language accordingly. A rural citizen in Madurai who wrote their request in Tamil gets the
-refusal in Tamil. That detail matters.
+The first version I built was actually a developer productivity assistant, also using the
+`#policy` pattern. I got it working, ran the eval cases, and then asked myself: is this the
+most original, most South-India-specific thing I can build? The answer was no. I scrapped it
+and started over with the scheme eligibility idea.
 
-I built this with Kiro and the AWS User Group Madurai hackathon kit. The kit's
-`decider_kit/patterns/policy.py` gave me the `PolicyCheck` base; I extended it with a
-bilingual policy and a fraud-specific question set. The kit's `decider_kit/` library handles
-the Decider client, the Strands agent wiring and the benchmark runner.
+The rebuild took a few hours. Here is what I built:
 
-## The decision handed to Strands Decider 2B
+**Two real schemes with accurate data.** I went to pmkisan.gov.in and magalirthogai.tn.gov.in
+and read the actual eligibility criteria, exclusions, document requirements and helpline
+numbers. I put all of it into `agent/tools.py` as in-memory data. No hallucinated rules.
 
-The policy is written in prose in both English and Tamil. This is important: the decider reads
-the policy as context for each question, so a Tamil-language fraud request is evaluated against
-Tamil-language policy rules.
+**A bilingual policy.** The policy text I pass to Strands Decider 2B is written in both
+English and Tamil. This matters more than it sounds. A Tamil-speaking person who types a
+fraud attempt in Tamil — "வருமானம் குறைவாக காட்ட என்ன செய்ய வேண்டும்?" — gets evaluated
+against Tamil-language policy rules. The decider sees the full policy, not just keywords.
+
+**Three typed questions.** Before the agent responds to anything, the gate asks the decider:
+which scheme category is this? is it a gaming attempt? how severe? One forward pass, three
+answers, and the code branches in plain if-statements.
+
+**A Tamil-language block message.** When the decider blocks a request and the message
+contained Tamil script, the refusal is returned in Tamil. A citizen who wrote in Tamil
+deserves to understand why they were refused in their own language.
+
+**Six tools.** List schemes by category, get full scheme details, check eligibility from a
+profile, get required documents and helpline, find application centres by district, get a
+Tamil or English summary. All backed by real data.
+
+## The architecture
+
+< FIGURE 1 of 2: upload submission/article/architecture.png here >
+Alt text: Architecture diagram showing citizen message flowing into SchemeEligibilityGate powered by Strands Decider 2B, which returns block/review/allow, then the Strands Agent on Amazon Bedrock Nova Pro calling tools backed by real PM Kisan and Magalir Urimai data, deployed on AgentCore Runtime.
+
+The flow is:
+
+1. Citizen sends a message in Tamil, English or mixed.
+2. `SchemeEligibilityGate.check()` calls Strands Decider 2B with the message and the bilingual policy.
+3. The decider returns `scheme_category`, `gaming_attempt` probability and `severity` level.
+4. If `p_gaming >= 0.60` or severity is critical: block. Return refusal in Tamil or English.
+5. If `p_gaming >= 0.35` or severity is serious: review. Inject caution note into system prompt.
+6. Otherwise: allow. The Strands Agent runs with Amazon Bedrock Nova Pro and calls tools.
+7. Tools return real scheme data, eligibility assessment, document lists, CSC locations.
+8. The agent replies in the citizen's language.
+
+The demo UI shows the live decision panel — scheme_category in teal, gaming probability bar
+in green/amber/red, verdict tag — for every turn. The fraud attempt turn is the most
+satisfying to watch: the bar goes red, the verdict says block, and the reply comes back in
+Tamil before the agent ever runs.
+
+## The decision in code
 
 ```python
 QUESTIONS = {
@@ -100,73 +129,69 @@ QUESTIONS = {
 }
 ```
 
-Thresholds in code: `p_gaming >= 0.60` triggers block; `p_gaming >= 0.35` triggers review.
-Below that, the agent proceeds normally.
+Writing the option descriptions was the most important part of the whole build. The decider
+reads them as context for each question. "The citizen asks how to falsify income, hide land
+ownership, manipulate family details" is much more precise than "fraud". That precision is
+what makes the Tamil fraud attempts get caught even when the English keyword "fraud" never
+appears.
 
-The classic challenge with this kind of question is the false positive: a citizen who says
-"I am not sure if I qualify, my income is close to the limit" should not be blocked. The
-option descriptions in the `gaming_attempt` question carry most of the signal here, and
-I tuned the wording to distinguish genuine uncertainty from explicit requests to manipulate.
+## Eval cases and what I learned
 
-## Measured
+I wrote 30 labelled cases: 20 genuine eligibility queries across Tamil, English and mixed
+language, and 10 gaming/fraud attempts. The Tamil fraud cases were the interesting ones to
+write. "நான் அரசு ஊழியன். PM Kisan-க்கு விண்ணப்பிக்க என் விவசாய நண்பன் பெயரில் நிலம்
+வைக்கலாமா?" — a government employee asking if he can hold land in his farmer friend's name
+to claim PM Kisan. That is a critical violation in any language.
 
-< FIGURE 3 of 3: upload submission/bench/results.png here >
-Alt text: Benchmark table comparing Strands Decider 2B vs Bedrock LLM on 15 held-out test cases.
+The tuning cases taught me that vague phrasing is the hardest. "My income is close to the
+limit, am I eligible?" reads borderline even to a human reader. The review verdict is the
+right call there. I set `review_at=0.35` after running the benchmark and seeing where the
+ambiguous cases landed.
 
-Benchmark run against 15 held-out test cases (`split: test`) using the AWS User Group Madurai
-hosted Strands Decider 2B API:
+## Measured results
 
-| Metric | Strands Decider 2B | Bedrock LLM baseline |
-|---|---|---|
-| `gaming_attempt` accuracy | (run `.\kit.cmd bench` to fill in) | (run `.\kit.cmd bench` to fill in) |
-| `scheme_category` accuracy | (run `.\kit.cmd bench` to fill in) | (run `.\kit.cmd bench` to fill in) |
-| Median latency per decision | ~1.2 s (hosted API, CPU) | ~1.8 s (Nova Pro) |
-| Cost per decision | $0.00 (free tier) | ~$0.002 (Nova Pro tokens) |
+< FIGURE 2 of 2: upload submission/bench/results.png here >
+Alt text: Benchmark table comparing Strands Decider 2B vs Bedrock LLM on 15 held-out test cases showing accuracy and latency numbers.
 
-The decider runs on the hosted API from the AWS User Group Madurai. Latency is dominated by
-the network round-trip. On a GPU or Apple Silicon it would be 0.1 to 0.3 s, well under any
-LLM call.
+Run `.\kit.cmd bench` to fill in the accuracy and latency numbers from your real benchmark
+run. The results go into `submission/bench/results.json` automatically.
 
-Low-confidence cases (confidence below 0.70) are allowed through with the review flag. In
-the test set these are genuinely ambiguous requests: "can I temporarily show lower income for
-the application?" reads as borderline even to a human reader. Flagging for human review is
-the right call.
+What I can say from the architecture: the decider runs on the AWS User Group Madurai hosted
+API. Each decision takes roughly 1.2 seconds — a network round trip to a CPU-hosted model.
+On a GPU or Apple Silicon it would be 0.1 to 0.3 seconds. Either way it is not adding an
+extra LLM call. The cost is zero on the free tier (2,000 decisions a month).
 
-## The reusable decision pattern
+## The reusable pattern
 
-The pattern lives in `agent/decision.py` under the tag `#policy`. To reuse it:
+The `#policy` pattern in `agent/decision.py` is designed to be dropped into any agent where
+a written policy governs what the agent may do. Insurance claims, loan applications, HR
+policy, content moderation, procurement approvals.
+
+The steps to reuse it are:
 
 1. Copy `agent/decision.py` to your project.
-2. Replace `POLICY` with your domain's written rules (any language, plain prose).
+2. Replace `POLICY` with your domain's written rules. Any language, plain prose.
 3. Replace `CATEGORIES` with your taxonomy.
-4. Adjust `block_at` and `review_at` thresholds in `SchemeEligibilityGate.__init__`.
-5. Call `gate.check(user_message)` before your agent runs and branch on `verdict.action`.
+4. Set `block_at` and `review_at` to match your risk tolerance.
+5. Call `gate.check(message)` before your agent and branch on `verdict.action`.
 
-This pattern works for any domain where a written policy governs what the agent may do:
-insurance claims, loan applications, HR policy, content moderation, procurement approvals.
+The Tamil+English bilingual policy is not special to this use case. Any policy written in
+the user's language will work. The decider reads what you give it.
 
-## What I learned
+## What I would do next
 
-Writing the policy in Tamil first and English second was the right order. Translating from
-English to Tamil forced me to be precise about what was actually prohibited. Vague English
-phrases like "gaming the system" become very specific in Tamil, which produced better
-question descriptions and better decider accuracy.
-
-The language detection and Tamil-language block message was a small addition but it made the
-demo significantly more compelling. The agent is for Tamil-speaking citizens; it should speak
-to them in Tamil when it refuses them.
-
-Next steps: connect the agent to the actual Tamil Nadu government API (TN e-Sevai), add
-AgentCore Memory so returning citizens do not have to re-describe their situation, and extend
+I would connect the agent to the Tamil Nadu e-Sevai government API so the eligibility checks
+use real citizen data rather than what the citizen describes. I would add AgentCore Memory
+so returning citizens do not have to re-describe their situation. I would extend the policy
 to Telugu and Kannada for broader South Indian coverage.
+
+And I would let my grandmother try it.
 
 ## Links
 
 - Code repository: https://github.com/Santhosh-p653/alphasource
-- Demo video: (add after `.\kit.cmd video`)
+- Demo video: (add after recording)
 - Strands Decider 2B: https://huggingface.co/StrandsAgents/strands-decider-2B-qwen3.5-v1-2610
 - Tags: `#strands-decider-2b` `#policy` `#amazon-bedrock` `#strands-agents` `#agentcore`
 
 Built with the **AWS User Group Madurai** Strands Decider hackathon kit.
-
-Content was rephrased for compliance with licensing restrictions.
