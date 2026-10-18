@@ -1,0 +1,19 @@
+# Amazon Bedrock AgentCore features for the Developer Policy Gate agent.
+# Neither Memory nor Gateway is needed for this agent: the policy gate is stateless
+# (each request is classified independently) and all tools use in-memory mock data.
+# Both are off; Runtime alone puts the agent on AWS.
+
+memory:
+  enabled: false
+  name: agentmemory
+  strategies: [SEMANTIC, USER_PREFERENCE]
+  expiry_days: 30
+
+gateway:
+  enabled: false
+  name: tools
+  authorizer: AWS_IAM
+  targets:
+    - name: websearch
+      type: connector
+      connector: web-search
