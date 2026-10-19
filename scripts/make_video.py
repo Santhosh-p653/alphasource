@@ -209,7 +209,7 @@ def main() -> None:
     from decider_kit.config import load_dotenv, settings
 
     load_dotenv()
-    script = yaml.safe_load((ROOT / "agent" / "demo_script.yaml").read_text())
+    script = yaml.safe_load((ROOT / "agent" / "demo_script.yaml").read_text(encoding="utf-8"))
     tag = "#guardrails"
     try:
         from agent import decision
@@ -241,7 +241,7 @@ def main() -> None:
             sys.exit("[video] a turn's narrate line states a measurement; describe the situation only")
     if a.target == "agentcore" and script.get("eager"):
         dep = ROOT / "submission" / "deployment.json"
-        deployed_eager = dep.exists() and json.loads(dep.read_text()).get("eager", False)
+        deployed_eager = dep.exists() and json.loads(dep.read_text(encoding="utf-8")).get("eager", False)
         if not deployed_eager:  # the deployed agent is not in demo-eager mode: say what is true
             intro = script.get("intro_normal") or intro
             print("[video] the deployed agent is not eager; using intro_normal from demo_script.yaml")
@@ -276,7 +276,7 @@ def main() -> None:
         clips.append(segment_clip(rec, m["start"], m["end"], tts(text, work / f"n{i}.mp3"), work / f"c{i}.mp4"))
     bench = ROOT / "submission" / "bench" / "results.json"
     if bench.exists():
-        full = json.loads(bench.read_text())
+        full = json.loads(bench.read_text(encoding="utf-8"))
         r = full["summary"]
         dsum, lsum = r["decider"], r.get("llm")
         where = {"local": "running locally on this machine", "ugmdu": "on the AWS User Group Madurai hosted API",
