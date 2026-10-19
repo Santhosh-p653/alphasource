@@ -116,15 +116,19 @@ padding:5px 16px;font-size:20px;margin:14px 8px 0 0}
 
 def slide(html: str, out: Path) -> Path:
     from playwright.sync_api import sync_playwright
-    page = out.with_suffix(".html")
-    page.write_text(f"<!doctype html><html><head><meta charset='utf-8'>"
-                    f"<style>{SLIDE_CSS}</style></head><body>{html}</body></html>",
-                    encoding="utf-8")
+    import base64
+    full_html = (f"<!doctype html><html><head><meta charset='utf-8'>"
+                 f"<style>{SLIDE_CSS}</style></head><body>{html}</body></html>")
+    # Use data URL to avoid file:// permission issues on Windows
+    b64 = base64.b64encode(full_html.encode("utf-8")).decode()
+    data_url = f"data:text/html;base64,{b64}"
     with sync_playwright() as p:
         b  = p.chromium.launch()
         pg = b.new_page(viewport={"width": W, "height": H})
-        pg.goto(page.as_uri()); pg.wait_for_timeout(400)
-        pg.screenshot(path=str(out)); b.close()
+        pg.goto(data_url, timeout=30000)
+        pg.wait_for_timeout(600)
+        pg.screenshot(path=str(out))
+        b.close()
     return out
 
 # ── record the demo turns ─────────────────────────────────────────────────────
