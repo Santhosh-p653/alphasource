@@ -1,0 +1,646 @@
+{
+ "decider_model": "strands-decider-2b-hobson-v19",
+ "rows": [
+  {
+   "i": 0,
+   "expected": {
+    "scheme_category": "agriculture",
+    "gaming_attempt": "no",
+    "severity": "none"
+   },
+   "decider": {
+    "scheme_category": {
+     "label": "agriculture",
+     "confidence": 0.9863
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 0.8627
+    },
+    "severity": {
+     "label": "none",
+     "confidence": 0.3217
+    }
+   },
+   "decider_ms": 13701.748399998905,
+   "decider_server_ms": 7934.7,
+   "llm": {
+    "scheme_category": {
+     "label": "agriculture",
+     "confidence": 1.0
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 1.0
+    },
+    "severity": {
+     "label": "none",
+     "confidence": 1.0
+    }
+   },
+   "llm_ms": 90223.92489999766,
+   "llm_cost": 0.0
+  },
+  {
+   "i": 1,
+   "expected": {
+    "scheme_category": "agriculture",
+    "gaming_attempt": "no",
+    "severity": "none"
+   },
+   "decider": {
+    "scheme_category": {
+     "label": "agriculture",
+     "confidence": 0.9831
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 0.895
+    },
+    "severity": {
+     "label": "none",
+     "confidence": 0.3175
+    }
+   },
+   "decider_ms": 8960.481199999776,
+   "decider_server_ms": 7885.7,
+   "llm": {
+    "scheme_category": {
+     "label": "agriculture",
+     "confidence": 1.0
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 1.0
+    },
+    "severity": {
+     "label": "none",
+     "confidence": 1.0
+    }
+   },
+   "llm_ms": 23668.40819999925,
+   "llm_cost": 0.0
+  },
+  {
+   "i": 2,
+   "expected": {
+    "scheme_category": "agriculture",
+    "gaming_attempt": "no",
+    "severity": "none"
+   },
+   "decider": {
+    "scheme_category": {
+     "label": "agriculture",
+     "confidence": 0.9884
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 0.8541
+    },
+    "severity": {
+     "label": "minor",
+     "confidence": 0.3259
+    }
+   },
+   "decider_ms": 7831.869099998585,
+   "decider_server_ms": 6960.3,
+   "llm": {
+    "scheme_category": {
+     "label": "agriculture",
+     "confidence": 1.0
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 1.0
+    },
+    "severity": {
+     "label": "none",
+     "confidence": 1.0
+    }
+   },
+   "llm_ms": 22379.862799996772,
+   "llm_cost": 0.0
+  },
+  {
+   "i": 3,
+   "expected": {
+    "scheme_category": "women_welfare",
+    "gaming_attempt": "no",
+    "severity": "none"
+   },
+   "decider": {
+    "scheme_category": {
+     "label": "women_welfare",
+     "confidence": 0.8191
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 0.8818
+    },
+    "severity": {
+     "label": "none",
+     "confidence": 0.3332
+    }
+   },
+   "decider_ms": 8003.01860000036,
+   "decider_server_ms": 6949.8,
+   "llm": {
+    "scheme_category": {
+     "label": "women_welfare",
+     "confidence": 1.0
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 1.0
+    },
+    "severity": {
+     "label": "none",
+     "confidence": 1.0
+    }
+   },
+   "llm_ms": 24812.741099998675,
+   "llm_cost": 0.0
+  },
+  {
+   "i": 4,
+   "expected": {
+    "scheme_category": "women_welfare",
+    "gaming_attempt": "no",
+    "severity": "none"
+   },
+   "decider": {
+    "scheme_category": {
+     "label": "ration_food",
+     "confidence": 0.4853
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 0.8713
+    },
+    "severity": {
+     "label": "minor",
+     "confidence": 0.326
+    }
+   },
+   "decider_ms": 9239.948400001595,
+   "decider_server_ms": 7962.4,
+   "llm": {
+    "scheme_category": {
+     "label": "women_welfare",
+     "confidence": 0.95
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 0.98
+    },
+    "severity": {
+     "label": "none",
+     "confidence": 0.99
+    }
+   },
+   "llm_ms": 24770.38840000023,
+   "llm_cost": 0.0
+  },
+  {
+   "i": 5,
+   "expected": {
+    "scheme_category": "women_welfare",
+    "gaming_attempt": "no",
+    "severity": "none"
+   },
+   "decider": {
+    "scheme_category": {
+     "label": "women_welfare",
+     "confidence": 0.8591
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 0.8832
+    },
+    "severity": {
+     "label": "none",
+     "confidence": 0.3291
+    }
+   },
+   "decider_ms": 7775.517399997625,
+   "decider_server_ms": 6748.4,
+   "llm": {
+    "scheme_category": {
+     "label": "women_welfare",
+     "confidence": 1.0
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 1.0
+    },
+    "severity": {
+     "label": "none",
+     "confidence": 1.0
+    }
+   },
+   "llm_ms": 22283.500800000184,
+   "llm_cost": 0.0
+  },
+  {
+   "i": 6,
+   "expected": {
+    "scheme_category": "ration_food",
+    "gaming_attempt": "no",
+    "severity": "none"
+   },
+   "decider": {
+    "scheme_category": {
+     "label": "ration_food",
+     "confidence": 0.8496
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 0.8817
+    },
+    "severity": {
+     "label": "none",
+     "confidence": 0.3531
+    }
+   },
+   "decider_ms": 8735.080300000845,
+   "decider_server_ms": 7595.3,
+   "llm": {
+    "scheme_category": {
+     "label": "ration_food",
+     "confidence": 1.0
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 1.0
+    },
+    "severity": {
+     "label": "none",
+     "confidence": 1.0
+    }
+   },
+   "llm_ms": 22380.73230000009,
+   "llm_cost": 0.0
+  },
+  {
+   "i": 7,
+   "expected": {
+    "scheme_category": "housing_infrastructure",
+    "gaming_attempt": "no",
+    "severity": "none"
+   },
+   "decider": {
+    "scheme_category": {
+     "label": "housing_infrastructure",
+     "confidence": 0.9257
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 0.8846
+    },
+    "severity": {
+     "label": "none",
+     "confidence": 0.3113
+    }
+   },
+   "decider_ms": 8744.752999999037,
+   "decider_server_ms": 7661.5,
+   "llm": {
+    "scheme_category": {
+     "label": "housing_infrastructure",
+     "confidence": 1.0
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 1.0
+    },
+    "severity": {
+     "label": "none",
+     "confidence": 1.0
+    }
+   },
+   "llm_ms": 22296.294200001284,
+   "llm_cost": 0.0
+  },
+  {
+   "i": 8,
+   "expected": {
+    "scheme_category": "women_welfare",
+    "gaming_attempt": "yes",
+    "severity": "serious"
+   },
+   "decider": {
+    "scheme_category": {
+     "label": "women_welfare",
+     "confidence": 0.7913
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 0.8185
+    },
+    "severity": {
+     "label": "none",
+     "confidence": 0.3079
+    }
+   },
+   "decider_ms": 7830.720800000563,
+   "decider_server_ms": 6913.6,
+   "llm": {
+    "scheme_category": {
+     "label": "women_welfare",
+     "confidence": 1.0
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 1.0
+    },
+    "severity": {
+     "label": "none",
+     "confidence": 1.0
+    }
+   },
+   "llm_ms": 22307.27019999904,
+   "llm_cost": 0.0
+  },
+  {
+   "i": 9,
+   "expected": {
+    "scheme_category": "women_welfare",
+    "gaming_attempt": "yes",
+    "severity": "critical"
+   },
+   "decider": {
+    "scheme_category": {
+     "label": "women_welfare",
+     "confidence": 0.8457
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 0.6099
+    },
+    "severity": {
+     "label": "minor",
+     "confidence": 0.3021
+    }
+   },
+   "decider_ms": 8876.494399999501,
+   "decider_server_ms": 7860.4,
+   "llm": {
+    "scheme_category": {
+     "label": "women_welfare",
+     "confidence": 1.0
+    },
+    "gaming_attempt": {
+     "label": "yes",
+     "confidence": 1.0
+    },
+    "severity": {
+     "label": "critical",
+     "confidence": 1.0
+    }
+   },
+   "llm_ms": 22466.725099999167,
+   "llm_cost": 0.0
+  },
+  {
+   "i": 10,
+   "expected": {
+    "scheme_category": "agriculture",
+    "gaming_attempt": "yes",
+    "severity": "serious"
+   },
+   "decider": {
+    "scheme_category": {
+     "label": "agriculture",
+     "confidence": 0.9855
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 0.7335
+    },
+    "severity": {
+     "label": "minor",
+     "confidence": 0.3041
+    }
+   },
+   "decider_ms": 7856.529600001522,
+   "decider_server_ms": 6818.4,
+   "llm": {
+    "scheme_category": {
+     "label": "agriculture",
+     "confidence": 0.95
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 0.98
+    },
+    "severity": {
+     "label": "none",
+     "confidence": 0.95
+    }
+   },
+   "llm_ms": 22479.64420000062,
+   "llm_cost": 0.0
+  },
+  {
+   "i": 11,
+   "expected": {
+    "scheme_category": "women_welfare",
+    "gaming_attempt": "no",
+    "severity": "none"
+   },
+   "decider": {
+    "scheme_category": {
+     "label": "women_welfare",
+     "confidence": 0.7859
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 0.8553
+    },
+    "severity": {
+     "label": "none",
+     "confidence": 0.3591
+    }
+   },
+   "decider_ms": 8074.602400000003,
+   "decider_server_ms": 6989.4,
+   "llm": {
+    "scheme_category": {
+     "label": "women_welfare",
+     "confidence": 1.0
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 1.0
+    },
+    "severity": {
+     "label": "none",
+     "confidence": 1.0
+    }
+   },
+   "llm_ms": 25225.116900001012,
+   "llm_cost": 0.0
+  },
+  {
+   "i": 12,
+   "expected": {
+    "scheme_category": "agriculture",
+    "gaming_attempt": "no",
+    "severity": "none"
+   },
+   "decider": {
+    "scheme_category": {
+     "label": "agriculture",
+     "confidence": 0.9793
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 0.8888
+    },
+    "severity": {
+     "label": "none",
+     "confidence": 0.3198
+    }
+   },
+   "decider_ms": 8982.012299999042,
+   "decider_server_ms": 7958.9,
+   "llm": {
+    "scheme_category": {
+     "label": "agriculture",
+     "confidence": 1.0
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 1.0
+    },
+    "severity": {
+     "label": "none",
+     "confidence": 1.0
+    }
+   },
+   "llm_ms": 23100.275199998578,
+   "llm_cost": 0.0
+  },
+  {
+   "i": 13,
+   "expected": {
+    "scheme_category": "women_welfare",
+    "gaming_attempt": "no",
+    "severity": "none"
+   },
+   "decider": {
+    "scheme_category": {
+     "label": "women_welfare",
+     "confidence": 0.8398
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 0.8317
+    },
+    "severity": {
+     "label": "minor",
+     "confidence": 0.2804
+    }
+   },
+   "decider_ms": 7701.21040000231,
+   "decider_server_ms": 6759.3,
+   "llm": {
+    "scheme_category": {
+     "label": "women_welfare",
+     "confidence": 1.0
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 1.0
+    },
+    "severity": {
+     "label": "none",
+     "confidence": 1.0
+    }
+   },
+   "llm_ms": 22653.115199998865,
+   "llm_cost": 0.0
+  },
+  {
+   "i": 14,
+   "expected": {
+    "scheme_category": "women_welfare",
+    "gaming_attempt": "no",
+    "severity": "none"
+   },
+   "decider": {
+    "scheme_category": {
+     "label": "women_welfare",
+     "confidence": 0.9105
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 0.8858
+    },
+    "severity": {
+     "label": "none",
+     "confidence": 0.3364
+    }
+   },
+   "decider_ms": 8785.197700002755,
+   "decider_server_ms": 7712.5,
+   "llm": {
+    "scheme_category": {
+     "label": "women_welfare",
+     "confidence": 1.0
+    },
+    "gaming_attempt": {
+     "label": "no",
+     "confidence": 1.0
+    },
+    "severity": {
+     "label": "none",
+     "confidence": 1.0
+    }
+   },
+   "llm_ms": 22781.14849999838,
+   "llm_cost": 0.0
+  }
+ ],
+ "summary": {
+  "decider": {
+   "accuracy": 0.7778,
+   "decisions": 45,
+   "per_question": {
+    "scheme_category": 0.9333,
+    "gaming_attempt": 0.8,
+    "severity": 0.6
+   },
+   "latency_p50_ms": 8735.1,
+   "latency_p95_ms": 9239.9,
+   "usd_per_1k_decisions": 0.035,
+   "confident_share": 0.6222,
+   "accuracy_when_confident": 0.9286,
+   "sent_to_human_at_threshold": 17
+  },
+  "llm": {
+   "accuracy": 0.9111,
+   "decisions": 45,
+   "per_question": {
+    "scheme_category": 1.0,
+    "gaming_attempt": 0.8667,
+    "severity": 0.8667
+   },
+   "latency_p50_ms": 22653.1,
+   "latency_p95_ms": 25225.1,
+   "usd_per_1k_decisions": 0.0,
+   "confident_share": 1.0,
+   "accuracy_when_confident": 0.9111,
+   "sent_to_human_at_threshold": 0
+  },
+  "speedup_p50": 2.59
+ },
+ "threshold": 0.7,
+ "llm_model": "qwen3.5-4b",
+ "llm_provider": "ugmdu",
+ "llm_where": "AWS User Group Madurai cloud (qwen3.5-4b)",
+ "decider_url": "https://da25tnxy06gjk.cloudfront.net",
+ "decider_mode": "ugmdu",
+ "ran_at": 1792399544.2171898,
+ "split": "test"
+}

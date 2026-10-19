@@ -214,7 +214,7 @@ def main() -> None:
     ap.add_argument("--split", default="", help="only cases with this split (tune or test); report test numbers")
     ap.add_argument("--out", default="submission/bench")
     a = ap.parse_args()
-    cases = [json.loads(x) for x in Path(a.cases).read_text().splitlines() if x.strip()]
+    cases = [json.loads(x) for x in Path(a.cases).read_text(encoding="utf-8").splitlines() if x.strip()]
     if a.split:
         cases = [c for c in cases if c.get("split", "test") == a.split]
     if len(cases) < 12:
@@ -223,9 +223,9 @@ def main() -> None:
     res["split"] = a.split or "all"
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
-    (out / "results.json").write_text(json.dumps(res, indent=1, default=str))
+    (out / "results.json").write_text(json.dumps(res, indent=1, default=str), encoding="utf-8")
     md = markdown(res)
-    (out / "results.md").write_text(md + "\n")
+    (out / "results.md").write_text(md + "\n", encoding="utf-8")
     res["charts"] = charts(res, out)
     print(md)
 
