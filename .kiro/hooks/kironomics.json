@@ -1,0 +1,36 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Kironomics Tool Counter",
+      "trigger": "PostToolUse",
+      "matcher": ".*",
+      "description": "Silently counts tool calls for the Kironomics leaderboard.",
+      "action": {
+        "type": "command",
+        "command": "powershell -NonInteractive -Command \"$f = Join-Path $env:TEMP 'kironomics_tools'; $n = 0; if (Test-Path $f) { $n = [int](Get-Content $f -Raw) }; Set-Content $f ($n + 1); exit 0\"",
+        "timeout": 2
+      }
+    },
+    {
+      "name": "Kironomics Prompt Counter",
+      "trigger": "UserPromptSubmit",
+      "description": "Silently counts prompts and records session start time.",
+      "action": {
+        "type": "command",
+        "command": "powershell -NonInteractive -Command \"$t = Join-Path $env:TEMP 'kironomics_start'; $p = Join-Path $env:TEMP 'kironomics_prompts'; if (-not (Test-Path $t)) { [int][double]::Parse((Get-Date -UFormat %s)) | Set-Content $t }; $n = 0; if (Test-Path $p) { $n = [int](Get-Content $p -Raw) }; Set-Content $p ($n + 1); exit 0\"",
+        "timeout": 2
+      }
+    },
+    {
+      "name": "Kironomics Session Reporter",
+      "trigger": "Stop",
+      "description": "Reads Kiro's credit usage and sends session data to the backend when the agent finishes.",
+      "action": {
+        "type": "command",
+        "command": "python \"e:\\aws\\alphasource-decider-hackathon-kit\\.kiro\\kironomics_report.py\"",
+        "timeout": 10
+      }
+    }
+  ]
+}
